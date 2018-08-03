@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- MyBatis Generator 代码生成器配置 -->
+<!--
+    所有子元素及子元素的子元素均有严格顺序
+    (property*,plugin*,commentGenerator?,(connectionFactory|jdbcConnection),javaTypeResolver?,javaModelGenerator,sqlMapGenerator?,javaClientGenerator?,table+)
+-->
+<generatorConfiguration>
+    <!--
+        可以用于加载配置项或者配置文件，在整个配置文件中就可以使用 ${propertyKey} 的方式来引用配置项
+            1. resource：配置资源加载地址，MBG 从 classpath 开始寻找文件，比如 `com/folder/generatorConfig.properties`
+            2. url：配置资源加载地址，使用 URL 的方式，比如 `file://C:/folder/generatorConfig.properties`
+            注意，两个属性只能选址一个
+        另外，如果使用了 mybatis-generator-maven-plugin，那么在 pom.xml 中定义的 properties 都可以直接在 generatorConfig.xml 中使用
+    -->
+    <properties resource="generator.properties"/>
+    <context id="application" defaultModelType="flat" targetRuntime="MyBatis3Simple">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="plugins.FieldConstantPlugin">
+            <property name="targetProject" value="${target.project.mapper}"/>
+            <property name="targetPackage" value="${target.package.mapper}"/>
+            <property name="fileName" value="FieldConstant"/>
+            <property name="generateEOFields" value="true"/>
+        </plugin>
+
+
+        <!-- 数据库连接配置 -->
+        <jdbcConnection driverClass="${jdbc.driverClass}" connectionURL="${jdbc.url}" userId="${jdbc.user}" password="${jdbc.password}"/>
+
+        <javaModelGenerator targetPackage="${target.package.model}" targetProject="${target.project.model}">
+            <!-- 默认使用 setter 方式入参，为 true 则构造方法入参 -->
+            <property name="constructorBased" value="false"/>
+            <!-- 为 true 则根据 catalog 和 schema 生成子包 -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 为 true 则只能使用构造方法入参 -->
+            <property name="immutable" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <table tableName="test_abc" domainObjectName="TestAbc">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+    </context>
+</generatorConfiguration>
